@@ -1,7 +1,5 @@
-# Ignore all files
 *
-
-# Except .cpp and .h files within directories
-!*/       # Allow all directories
-!*.cpp    # Allow .cpp files
-!*.h      # Allow .h files
+!.gitignore
+!**/
+!**/*.cpp
+!**/*.h
