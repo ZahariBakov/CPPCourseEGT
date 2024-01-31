@@ -1,6 +1,7 @@
+# Ignore all files
 *
-!.gitignore
-!**/*.cpp
-!**/*.xml
-!**/*.h
-!**/*.c
+
+# Except .cpp and .h files within directories
+!*/       # Allow all directories
+!*.cpp    # Allow .cpp files
+!*.h      # Allow .h files
