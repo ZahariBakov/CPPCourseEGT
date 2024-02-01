@@ -16,21 +16,30 @@ void DeckOfCards::createDesk() {
 }
 
 void DeckOfCards::raffleShuffle() {
-    std::vector<PlayingCard> firstPartOfDeck[26];
-    std::vector<PlayingCard> secondPartOfDeck[26];
+    std::vector<PlayingCard> firstPartOfDeck;
+    std::vector<PlayingCard> secondPartOfDeck;
 
     for (int i = 0; i < 52; ++i) {
-        if (i % 2 == 0) {
-            firstPartOfDeck->push_back(this->_deck[i]);
+        if (i < 26) {
+            firstPartOfDeck.push_back(this->_deck[i]);
         }
         else {
-            secondPartOfDeck->push_back(this->_deck[i]);
+            secondPartOfDeck.push_back(this->_deck[i]);
         }
     }
+
+    this->_deck.clear();
+
+    for (int i = 0; i < 26; ++i) {
+        this->_deck.push_back(firstPartOfDeck[i]);
+        this->_deck.push_back(secondPartOfDeck[i]);
+    }
+
 }
 
 void DeckOfCards::showDeck() {
     for (size_t i = 0; i < this->_deck.size(); ++i) {
-        std::cout << this->_deck[i].getType() << " " << this->_deck[i].getSuit() << std::endl;
+        std::cout << this->_deck[i].getType() << " " << this->_deck[i].getSuit() << "\n";
     }
+    std::cout << std::endl;
 }
