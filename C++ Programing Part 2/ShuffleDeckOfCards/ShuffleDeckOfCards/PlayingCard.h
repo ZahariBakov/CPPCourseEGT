@@ -7,6 +7,7 @@
 class PlayingCard {
 
 public:
+
 	PlayingCard(char, std::string);
 
 	void setType(char);
@@ -16,6 +17,7 @@ public:
 	std::string getSuit();
 
 private:
+
 	char _type;
 	std::string _suit;
 };

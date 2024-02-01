@@ -6,7 +6,7 @@ PlayingCard::PlayingCard(char type, std::string suit) {
 }
 
 void PlayingCard::setType(char type) {
-	if (type != 'A' && type != 'K' && type != 'Q' && type != 'J' && type != 'T' && type != '9' && type != '8' 
+	while (type != 'A' && type != 'K' && type != 'Q' && type != 'J' && type != 'T' && type != '9' && type != '8' 
 		&& type != '7' && type != '6' && type != '5' && type != '4' && type != '3' && type != '2') {
 		while (type != 'A' && type != 'K' && type != 'Q' && type != 'J' && type != 'T' && type != '9' && type != '8'
 			&& type != '7' && type != '6' && type != '5' && type != '4' && type != '3' && type != '2') {
