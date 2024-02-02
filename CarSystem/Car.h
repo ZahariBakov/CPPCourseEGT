@@ -1,15 +1,10 @@
 #pragma once
 
-#include <iostream>
-#include <string>
-
-#include "Road.h"
 #include "BaseCar.h"
 
 class Car : public BaseCar {
 
 public:
-
     Car(std::string);
 
     void assignRoad(Road*) override;
@@ -21,7 +16,6 @@ public:
     ~Car() override {}
 
 private:
-
     std::string name;
     Road* road;
     double meters;

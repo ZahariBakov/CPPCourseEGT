@@ -1,8 +1,8 @@
-#include "Car.h"
+#include "FastCar.h"
 
-Car::Car(std::string name) : road(NULL), name(name), meters(0) {}
+FastCar::FastCar(std::string name) : road(NULL), name(name), meters(0) {}
 
-void Car::assignRoad(Road* road) {
+void FastCar::assignRoad(Road* road) {
     if (this->road != NULL) {
         throw "can't override road";
     }
@@ -10,16 +10,16 @@ void Car::assignRoad(Road* road) {
     this->road = road;
 }
 
-bool Car::hasFinished() {
+bool FastCar::hasFinished() {
     return road == NULL;
 }
 
-void Car::tick(double sec) {
+void FastCar::tick(double sec) {
     if (hasFinished()) {
         return;
     }
 
-    int maxSpeed = road->maxSpeedAt(meters);
+    int maxSpeed = (road->maxSpeedAt(meters)) + 20;
 
     int roadLen = road->totalLength();
 

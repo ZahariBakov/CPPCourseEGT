@@ -24,3 +24,15 @@ int Road::maxSpeedAt(double meters) const {
 int Road::totalLength() const {
     return segments[segments.size() - 1].begining;
 }
+
+const RoadSegment* Road::getSegmentAt(double meters) const {
+    if (meters >= totalLength()) {
+        return NULL;
+    }
+    for (int i = 0; i < segments.size(); ++i) {
+        if (segments[i].begining <= meters && segments[i + 1].begining > meters) {
+            return &segments[i];
+        }
+    }
+    return NULL;
+}
