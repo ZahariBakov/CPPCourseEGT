@@ -4,18 +4,21 @@
 #include <string>
 
 #include "Road.h"
+#include "BaseCar.h"
 
-class Car {
+class Car : public BaseCar {
 
 public:
 
     Car(std::string);
 
-    void assignRoad(Road*);
+    void assignRoad(Road*) override;
 
-    bool hasFinished();
+    bool hasFinished() override;
 
-    void tick(double);
+    void tick(double) override;
+
+    ~Car() override {}
 
 private:
 

@@ -6,7 +6,7 @@ Road::Road(double meters, int numSegments) {
         int maxSpeed = 50 + rand() % 50;
         segments.push_back(RoadSegment{
                 i * segLen,
-                maxSpeed - 10,
+                maxSpeed - 20,
                 maxSpeed,
             });
     }

@@ -1,12 +1,12 @@
 #include "Controller.h"
 
-Controller::Controller() : timerInterval(10) {}
+Controller::Controller() : carId(0), timerInterval(10) {}
 
 void Controller::addCar() {
     // Car *p = new Car(unique_name());
     // cars.emplace_back(p);
-    std::unique_ptr<Car> p = std::make_unique<Car>(unique_name());
-    cars.push_back(std::move(p));
+    std::unique_ptr<BaseCar> p = std::make_unique<Car>(unique_name());
+    cars.emplace_back(std::move(p));
 }
 
 void Controller::addRoad() {

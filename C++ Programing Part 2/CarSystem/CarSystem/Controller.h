@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 
+#include "BaseCar.h"
 #include "Car.h"
 #include "Road.h"
 
@@ -25,6 +26,6 @@ private:
     int carId;
 
     double timerInterval;
-    std::vector<std::unique_ptr<Car>> cars;
+    std::vector<std::unique_ptr<BaseCar>> cars;
     std::vector<std::unique_ptr<Road>> roads;
 };

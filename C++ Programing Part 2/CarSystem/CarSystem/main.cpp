@@ -2,11 +2,15 @@
 #include <thread>
 
 #include "RoadSegment.h"
+
 #include "BaseRoad.h"
 #include "SimpleRoad.h"
 #include "CombineRoad.h"
 #include "Road.h"
+
+#include "BaseCar.h"
 #include "Car.h"
+
 #include "Controller.h"
 
 int main() {
