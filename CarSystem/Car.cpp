@@ -24,17 +24,17 @@ void Car::tick(double sec) {
     int roadLen = road->totalLength();
 
     double dist = maxSpeed * (sec / 3600) * 1000;
-    std::cout << "Car " << this->name << " traveled " << dist <<
+    std::cout <<this->name << " traveled " << dist <<
         " with " << maxSpeed << std::endl;
     meters += dist;
     if (meters >= roadLen) {
-        std::cout << "Car " << this->name << " reached end of road"
+        std::cout << this->name << " reached end of road"
             << std::endl;
         road = NULL;
         meters = 0;
     }
     else {
-        std::cout << "Car " << this->name << " at "
+        std::cout << this->name << " at "
             << meters << "/" << roadLen << " on road" << std::endl;
     }
 }
