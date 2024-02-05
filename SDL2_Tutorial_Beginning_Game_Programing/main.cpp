@@ -22,7 +22,7 @@ SDL_Window* gWindow = nullptr;
 SDL_Surface* gScreenSurface = nullptr;
 
 //The image we will load and show on the screen
-SDL_Surface* gHelloWorld = nullptr;
+SDL_Surface* gXOut = nullptr;
 
 bool init()
 {
@@ -36,7 +36,7 @@ bool init()
 	}
 	else {
 		//Create window
-		gWindow = SDL_CreateWindow("SDL Image on screen", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
+		gWindow = SDL_CreateWindow("Handle event with SDL", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
 			SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
 		if (gWindow == nullptr)
@@ -59,10 +59,10 @@ bool loadMedia()
 	bool success = true;
 
 	//Load splash image
-	gHelloWorld = SDL_LoadBMP("./coding.bmp");
+	gXOut = SDL_LoadBMP("./x.bmp");
 
-	if (gHelloWorld == nullptr) {
-		printf("Unable to load image %s! SDL Error: %s\n", "./coding.bmp", SDL_GetError());
+	if (gXOut == nullptr) {
+		printf("Unable to load image %s! SDL Error: %s\n", "./x.bmp", SDL_GetError());
 		success = false;
 	}
 
@@ -71,8 +71,8 @@ bool loadMedia()
 
 void close() {
 	//Deallocate surface
-	SDL_FreeSurface(gHelloWorld);
-	gHelloWorld = nullptr;
+	SDL_FreeSurface(gXOut);
+	gXOut = nullptr;
 
 	//Destroy window
 	SDL_DestroyWindow(gWindow);
@@ -95,23 +95,29 @@ int main(int argc, char* args[]) {
 			printf("Failed to load media!\n");
 		}
 		else {
-			//Apply the image
-			SDL_BlitSurface(gHelloWorld, nullptr, gScreenSurface, nullptr);
+			// Main loop flag
+			bool quit = false;
 
-			//Update the surface
-			SDL_UpdateWindowSurface(gWindow);
-
-			//Hack to get window to stay up
+			//Event handler
 			SDL_Event e; 
-			bool quit = false; 
-			
-			while (quit == false) { 
-				while (SDL_PollEvent(&e)) { 
+			 
+			// While application is running
+			while (!quit) { 
 
+				// Handle events on queue
+				while (SDL_PollEvent(&e) != 0) { 
+
+					// User requests quit
 					if (e.type == SDL_QUIT) {
 						quit = true;
 					}
 				}
+
+				//Apply the image
+				SDL_BlitSurface(gXOut, nullptr, gScreenSurface, nullptr);
+
+				//Update the surface
+				SDL_UpdateWindowSurface(gWindow);
 			}
 		}
 	}
