@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "Game.h"
 
 int c = 0;
@@ -30,7 +28,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
 				// Add picture to window
-				SDL_Surface* tempSurface = SDL_LoadBMP("assets/bmp2.bmp");
+				SDL_Surface* tempSurface = SDL_LoadBMP("assets/mario.bmp");
 				texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
 				SDL_FreeSurface(tempSurface);
 
