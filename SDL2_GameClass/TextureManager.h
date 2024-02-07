@@ -17,7 +17,7 @@ public:
 		SDL_Renderer* ren,	 
 		SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-	void drawOneFrameFromTextture(std::string id, 							  
+	void drawOneFrameFromTexture(std::string id, 							  
 		int x, int y, 						  
 		int width, int height,						  
 		int currentRow, int currentFrame, 								  
