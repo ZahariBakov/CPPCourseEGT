@@ -6,7 +6,7 @@ Game::Game() {
 	Game::window = NULL;
 	Game::renderer = NULL;
 	Game::running = true;
-	Game::currentFrame = 3;
+	Game::currentFrame = 0;
 }
 
 Game::~Game() {}
@@ -26,7 +26,8 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 				std::cout << "renderer streation success\n";
 				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-				TextureManager::Instance()->loadTexture("assets/images.jpg", "jpg", renderer);
+				//TextureManager::Instance()->loadTexture("assets/images.jpg", "jpg", renderer);
+				TextureManager::Instance()->loadTexture("assets/cat-sprite.png", "cat", renderer);
 				TextureManager::Instance()->loadTexture("assets/Sprite-Sheet.jpg", "sprite_sheet", renderer);
 			}
 			else {
@@ -77,8 +78,9 @@ void Game::render() {
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0xFF);
 	Shapes::drawCircle(renderer, ww / 2, wh / 2, wh / 2);
 
-	//TextureManager::Instance()->drawOneFrameFromTexture("sprite_sheet", 0, 0, 130, 130, 1, currentFrame, renderer);
-	//TextureManager::Instance()->drawOneFrameFromTexture("sprite_sheet", 0, 130, 130, 130, 2, currentFrame, renderer);
+	TextureManager::Instance()->drawOneFrameFromTexture("sprite_sheet", 0, 0, 130, 130, 1, currentFrame, renderer);
+	TextureManager::Instance()->drawOneFrameFromTexture("cat", 0, 130, 221, 150, 1, currentFrame, renderer);
+	//TextureManager::Instance()->drawOneFrameFromTexture("sprite_sheet", 0, 150, 221, 150, 2, currentFrame, renderer);
 
 	//SDL_RenderCopy(renderer, texture, &sourceRectangle, &destinationRectangle);
 	//TextureManager::Instance()->drawTexture("jpg", 0, 0, 187, 269, renderer);
@@ -95,7 +97,7 @@ void Game::update() {
 	//std::cout << "SDL_TICKS / 150: " << int((SDL_GetTicks() / 150)) << "\n";
 	//std::cout << "SDL_TICKS / 150 % 5: " << int(((SDL_GetTicks() / 150) % 5)) << "\n" << std::endl;
 
-	//currentFrame = int(((SDL_GetTicks() / 150) % 5)); // % 5 for 5 frames
+	currentFrame = int(((SDL_GetTicks() / 150) % 5)); // % 5 for 5 frames
 }
 
 void Game::handleEvents() {
