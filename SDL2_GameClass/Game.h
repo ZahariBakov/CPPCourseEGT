@@ -1,6 +1,10 @@
+#pragma once
+
 #include <iostream>
 
 #include <SDL.h>
+#include <SDL_image.h>
+#include "TextureManager.h"
 
 class Game {
 public:
@@ -22,8 +26,4 @@ private:
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 	bool running;
-
-	SDL_Texture* texture = NULL;
-	SDL_Rect sourceRectangle;
-	SDL_Rect destinationRectangle;
 };

@@ -6,8 +6,6 @@ Game::Game() {
 	Game::window = NULL;
 	Game::renderer = NULL;
 	Game::running = true;
-	Game::sourceRectangle.x = Game::sourceRectangle.y = Game::sourceRectangle.w = Game::sourceRectangle.h = 0;
-	Game::destinationRectangle.x = Game::destinationRectangle.y = Game::destinationRectangle.w = Game::destinationRectangle.h = 0;
 }
 
 Game::~Game() {}
@@ -27,18 +25,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 				std::cout << "renderer streation success\n";
 				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-				// Add picture to window
-				SDL_Surface* tempSurface = SDL_LoadBMP("assets/mario.bmp");
-				texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
-				SDL_FreeSurface(tempSurface);
-
-				std::cout << "\n" << sourceRectangle.w << "\n";
-				SDL_QueryTexture(texture, NULL, NULL, &sourceRectangle.w, &sourceRectangle.h);
-				std::cout << "\n" << sourceRectangle.w << "\n";
-				destinationRectangle.x = sourceRectangle.x = 0;
-				destinationRectangle.y = sourceRectangle.y = 0;
-				destinationRectangle.w = sourceRectangle.w;
-				destinationRectangle.h = sourceRectangle.h;
+				TextureManager::Instance()->loadTexture("assets/images.jpg", "jpg", renderer);
 			}
 			else {
 				std::cout << "renderer init failed\n";
@@ -63,19 +50,14 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 void Game::render() {
 	SDL_RenderClear(renderer);
 
-	SDL_RenderCopy(renderer, texture, &sourceRectangle, &destinationRectangle);
+	//SDL_RenderCopy(renderer, texture, &sourceRectangle, &destinationRectangle);
+	TextureManager::Instance()->drawTexture("jpg", 0, 0, 187, 269, renderer);
+	TextureManager::Instance()->drawTexture("jpg", 200, 0, 187, 269, renderer, SDL_FLIP_HORIZONTAL);
 
 	SDL_RenderPresent(renderer);
 }
 
 void Game::update() {
-	c++;
-	if (c % 50 == 0) {
-		destinationRectangle.x++;
-		destinationRectangle.y++;
-		//sourceRectangle.x++;
-		//sourceRectangle.w--;
-	}
 }
 
 void Game::handleEvents() {
