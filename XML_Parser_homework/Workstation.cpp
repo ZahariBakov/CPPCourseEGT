@@ -6,7 +6,9 @@ Workstation::Workstation(int building, int floor, int desk) {
 	setDesk(desk);
 }
 
-Workstation::~Workstation() {}
+Workstation::~Workstation() {
+	std::cout << "Deleting in Workstation" << std::endl;
+}
 
 void Workstation::setBuilding(int bulding) {
 	this->_building = bulding;
