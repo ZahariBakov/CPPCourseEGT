@@ -9,6 +9,7 @@ int main() {
 
     std::vector<Employee*> employees = createVectorFromFile(doc);
     printEmployeesInfo(employees);
+    deleteEmployees(employees);
 
     return 0;
 }

@@ -11,21 +11,39 @@ std::vector<Employee* > createVectorFromFile(pugi::xml_document &doc) {
 
     pugi::xml_node empls = doc.child("EmployeesData").child("Employees");
 
-    
-    std::string text;
-
     for (pugi::xml_node_iterator it = empls.begin(); it != empls.end(); ++it) {
-        Employee* tempVec = new Employee(it->attribute("Name").as_string(), it->attribute("Type").as_string(), it->attribute("Age").as_int());
-        employees.push_back(tempVec);
-    }
+        //pugi::xml_node employeesNode = it->first_child();
+        pugi::xml_node workstationNode = it->last_child();
 
-    
+        Workstation* workstation = new Workstation(workstationNode.attribute("Building").as_int(), workstationNode.attribute("Floor").as_int(), workstationNode.attribute("Desc").as_int());
+        Employee* employee = new Employee(it->attribute("Name").as_string(), it->attribute("Type").as_string(), it->attribute("Age").as_int(), *workstation);
+        
+        employees.push_back(employee);
+
+        //delete workstation;
+        //workstation = nullptr;
+        //delete employee;
+        //employee = nullptr;
+    }    
 
     return employees;
 }
 
 void printEmployeesInfo(std::vector<Employee*> &employees) {
-    for (const auto* employee : employees) {
-        employee->displayInfo();
+    if (&employees == nullptr) {
+        std::cout << "employees is empty" << std::endl;
+    }
+    else {
+        for (const auto* employee : employees) {
+            employee->EmployeeDisplayInfo();
+        }
+    }
+    
+}
+
+void deleteEmployees(std::vector<Employee*>& employees) {
+    for (auto* employee : employees) {
+        delete employee;
+        employee = nullptr;
     }
 }
