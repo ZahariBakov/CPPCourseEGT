@@ -98,8 +98,45 @@ void Game::handleEvents() {
 	SDL_Event event;
 	if (SDL_PollEvent(&event)) {
 		switch (event.type) {
-		case SDL_QUIT: running = false; break;
-		default: break;
+			case SDL_QUIT: running = false; break;
+			case SDL_MOUSEBUTTONDOWN: {
+				int msx, msy;
+				std::cout << "moude button down\n";
+				if (event.button.button == SDL_BUTTON_LEFT) {
+					SDL_GetMouseState(&msx, &msy);
+					std::cout << msx << ":" << msy << "\n";
+				}
+			}; break;
+			case SDL_MOUSEBUTTONUP: {
+				int msx, msy;
+				std::cout << "mouse button up\n";
+				if (event.button.button == SDL_BUTTON_RIGHT) {
+					SDL_GetMouseState(&msx, &msy);
+					std::cout << msx << ":" << msy << "\n";
+				}
+			}; break;
+			case SDL_KEYDOWN: {
+				if (event.key.keysym.sym == SDLK_LEFT) {
+					dRectFont1.x--;
+				}
+				if (event.key.keysym.sym == SDLK_RIGHT) {
+					dRectFont1.x++;
+				}
+				if (event.key.keysym.sym == SDLK_UP) {
+					dRectFont1.y--;
+				}
+				if (event.key.keysym.sym == SDLK_DOWN) {
+					dRectFont1.y++;
+				}
+			}; break;
+			case SDL_KEYUP: {
+				
+			}; break;
+			case SDL_MOUSEMOTION: {
+				std::cout << event.motion.x << ":" << event.motion.y << std::endl;
+			}; break;
+
+			default: break;
 		}
 	}
 }
