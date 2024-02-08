@@ -123,6 +123,14 @@ Game::Game() {
 	Game::window = NULL;
 	Game::renderer = NULL;
 	Game::running = true;
+	Game::dRectFont1 = { 0, 0, 0, 0 };
+	Game::dRectFont2 = { 0, 0, 0, 0 };
+	Game::dRectFont1Wrapped = { 0, 0, 0, 0 };
+	Game::dRectFont2Wrapped = { 0, 0, 0, 0 };
+	Game::textTextureFont1 = NULL;
+	Game::textTextureFont2 = NULL;
+	Game::textTextureFont1Wrapped = NULL;
+	Game::textTextureFont2Wrapped = NULL;
 }
 
 Game::~Game() {
