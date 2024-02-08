@@ -11,7 +11,7 @@ Employee::~Employee() {
 	std::cout << "Deleting in Employee" << std::endl;
 	delete this->_workstation;
 	this->_workstation = nullptr;
-	std::cout << "In Employee - Workstation is deleting" << std::endl;
+	std::cout << "In Employee - Workstation has been deleted." << std::endl;
 }
 
 void Employee::setName(std::string name) {

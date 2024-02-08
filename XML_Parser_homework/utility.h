@@ -46,6 +46,6 @@ void deleteEmployees(std::vector<Employee*>& employees) {
         std::cout << "\nDeleting in utility" << std::endl;
         delete employee;
         employee = nullptr;
-        std::cout << "In utility Employee is deleting." << std::endl;
+        std::cout << "In utility Employee has been deleted." << std::endl;
     }
 }
