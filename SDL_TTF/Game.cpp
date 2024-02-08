@@ -117,15 +117,19 @@ void Game::handleEvents() {
 			}; break;
 			case SDL_KEYDOWN: {
 				if (event.key.keysym.sym == SDLK_LEFT) {
+					std::cout << "left pressed!\n";
 					dRectFont1.x--;
 				}
 				if (event.key.keysym.sym == SDLK_RIGHT) {
+					std::cout << "right pressed!\n";
 					dRectFont1.x++;
 				}
 				if (event.key.keysym.sym == SDLK_UP) {
+					std::cout << "up pressed!\n";
 					dRectFont1.y--;
 				}
 				if (event.key.keysym.sym == SDLK_DOWN) {
+					std::cout << "down pressed!\n";
 					dRectFont1.y++;
 				}
 			}; break;
@@ -134,6 +138,8 @@ void Game::handleEvents() {
 			}; break;
 			case SDL_MOUSEMOTION: {
 				std::cout << event.motion.x << ":" << event.motion.y << std::endl;
+				dRectFont2.x = event.motion.x - dRectFont2.w / 2;
+				dRectFont2.y = event.motion.y - dRectFont2.h / 2;;
 			}; break;
 
 			default: break;
