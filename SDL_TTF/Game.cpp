@@ -110,28 +110,28 @@ void Game::handleEvents() {
 			case SDL_QUIT: running = false; break;
 			case SDL_MOUSEBUTTONDOWN: {
 				int msx, msy;
-				//std::cout << "moude button down\n";
-				//if (event.button.button == SDL_BUTTON_LEFT) {
-				//	SDL_GetMouseState(&msx, &msy);
-				//	std::cout << msx << ":" << msy << "\n";
-					if (event.button.button == SDL_BUTTON_LEFT) {
-						SDL_GetMouseState(&msx, &msy);
-						mouseDownX = msx;
-						mouseDownY = msy;
-					}
-				//}
+				std::cout << "moude button down\n";
+				if (event.button.button == SDL_BUTTON_LEFT) {
+					SDL_GetMouseState(&msx, &msy);
+					std::cout << msx << ":" << msy << "\n";
+				}
+				if (event.button.button == SDL_BUTTON_LEFT) {
+					SDL_GetMouseState(&msx, &msy);
+					mouseDownX = msx;
+					mouseDownY = msy;
+				}
 			}; break;
 			case SDL_MOUSEBUTTONUP: {
 				int msx, msy;
-				//std::cout << "mouse button up\n";
-				//if (event.button.button == SDL_BUTTON_RIGHT) {
-				//	SDL_GetMouseState(&msx, &msy);
-				//	std::cout << msx << ":" << msy << "\n";
-					if (event.button.button == SDL_BUTTON_LEFT) {
-						SDL_GetMouseState(&msx, &msy);
-						std::cout << (isClickableTextureClicked(clickableTexture, &clickableRect, mouseDownX, mouseDownY, msx, msy) ? "CLICKED" : "NOT CLICKED") << "\n";
-					}
-				//}
+				std::cout << "mouse button up\n";
+				if (event.button.button == SDL_BUTTON_RIGHT) {
+					SDL_GetMouseState(&msx, &msy);
+					std::cout << msx << ":" << msy << "\n";
+				}
+				if (event.button.button == SDL_BUTTON_LEFT) {
+					SDL_GetMouseState(&msx, &msy);
+					std::cout << (isClickableTextureClicked(clickableTexture, &clickableRect, mouseDownX, mouseDownY, msx, msy) ? "CLICKED" : "NOT CLICKED") << "\n";
+				}
 			}; break;
 			case SDL_KEYDOWN: {
 				if (event.key.keysym.sym == SDLK_LEFT) {
@@ -155,9 +155,9 @@ void Game::handleEvents() {
 				
 			}; break;
 			case SDL_MOUSEMOTION: {
-				//std::cout << event.motion.x << ":" << event.motion.y << std::endl;
-				//dRectFont2.x = event.motion.x - dRectFont2.w / 2;
-				//dRectFont2.y = event.motion.y - dRectFont2.h / 2;
+				std::cout << event.motion.x << ":" << event.motion.y << std::endl;
+				dRectFont2.x = event.motion.x - dRectFont2.w / 2;
+				dRectFont2.y = event.motion.y - dRectFont2.h / 2;
 			}; break;
 
 			default: break;
