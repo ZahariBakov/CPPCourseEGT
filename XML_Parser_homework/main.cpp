@@ -1,8 +1,8 @@
-#include <iostream>
-
 #include "pugixml.h"
 
-//using namespace pugi;
+#include "Employee.h"
+
+#include <vector>
 
 int main() {
     pugi::xml_document doc;
@@ -13,14 +13,16 @@ int main() {
 
     pugi::xml_node empls = doc.child("EmployeesData").child("Employees");
 
-    for (pugi::xml_node_iterator it = empls.begin(); it != empls.end(); ++it) {
-        std::cout << "Employee: ";
+    std::vector<Employee*> employees;
+    std::string text;
 
-        for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait) {
-            std::cout << " " << ait->name() << " = " << ait->value();
-        }
+    for (pugi::xml_node_iterator it = empls.begin(); it != empls.end(); ++it) {        
+        Employee* tempVec = new Employee(it->attribute("Name").as_string(), it->attribute("Type").as_string(), it->attribute("Age").as_int());
+        employees.push_back(tempVec);
+    }
 
-        std::cout << std::endl;
+    for (size_t i = 0; i < employees.size(); ++i) {
+        employees[i]->displayInfo();
     }
 
     return 0;
