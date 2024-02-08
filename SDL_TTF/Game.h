@@ -17,6 +17,7 @@ public:
 	void clean();
 
 	bool isRunning();
+	bool isClickableTextureClicked(SDL_Texture* t, SDL_Rect* r, int xDown, int yDown, int xUp, int yUp);
 
 private:
 	SDL_Window* window = NULL;
@@ -28,4 +29,7 @@ private:
 			   * textTextureFont2Wrapped;
 	SDL_Rect dRectFont1, dRectFont2, 
 		dRectFont1Wrapped, dRectFont2Wrapped;
+	SDL_Texture* clickableTexture;
+	SDL_Rect clickableRect;
+	int mouseDownX, mouseDownY;
 };

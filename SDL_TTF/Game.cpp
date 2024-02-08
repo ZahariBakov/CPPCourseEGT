@@ -63,6 +63,9 @@ bool Game::ttf_init() {
 	tempSurfaceText = TTF_RenderText_Blended_Wrapped(font2, "Hello World!\nThis wraps the text.", { 255, 0, 255, 255 }, 500);
 	textTextureFont2Wrapped = SDL_CreateTextureFromSurface(renderer, tempSurfaceText);
 
+	tempSurfaceText = TTF_RenderText_Blended(font1, "CLICK", { 0, 0, 0, 255 });
+	clickableTexture = SDL_CreateTextureFromSurface(renderer, tempSurfaceText);
+
 	int tw, th;
 	SDL_QueryTexture(textTextureFont1, 0, 0, &tw, &th);
 	dRectFont1 = { 10, 10 ,tw, th };
@@ -76,6 +79,11 @@ bool Game::ttf_init() {
 	SDL_QueryTexture(textTextureFont2Wrapped, 0, 0, &tw, &th);
 	dRectFont2Wrapped = { 650, 320 ,tw, th };
 
+	SDL_QueryTexture(clickableTexture, 0, 0, &tw, &th);
+	int ww, wh;
+	SDL_GetWindowSize(window, &ww, &wh);
+	clickableRect = { ww / 2 - tw / 2,  wh / 2 - th / 2, tw, th };
+
 	SDL_FreeSurface(tempSurfaceText);
 	TTF_CloseFont(font1);
 	TTF_CloseFont(font2);
@@ -86,10 +94,11 @@ bool Game::ttf_init() {
 void Game::render() {
 	SDL_RenderClear(renderer);
 
-	SDL_RenderCopy(renderer, textTextureFont1, NULL, &dRectFont1);
-	SDL_RenderCopy(renderer, textTextureFont2, NULL, &dRectFont2);
+	SDL_RenderCopy(renderer, textTextureFont1,        NULL, &dRectFont1);
+	SDL_RenderCopy(renderer, textTextureFont2,        NULL, &dRectFont2);
 	SDL_RenderCopy(renderer, textTextureFont1Wrapped, NULL, &dRectFont1Wrapped);
 	SDL_RenderCopy(renderer, textTextureFont2Wrapped, NULL, &dRectFont2Wrapped);
+	SDL_RenderCopy(renderer, clickableTexture,        NULL, &clickableRect);
 
 	SDL_RenderPresent(renderer);
 }
@@ -101,19 +110,28 @@ void Game::handleEvents() {
 			case SDL_QUIT: running = false; break;
 			case SDL_MOUSEBUTTONDOWN: {
 				int msx, msy;
-				std::cout << "moude button down\n";
-				if (event.button.button == SDL_BUTTON_LEFT) {
-					SDL_GetMouseState(&msx, &msy);
-					std::cout << msx << ":" << msy << "\n";
-				}
+				//std::cout << "moude button down\n";
+				//if (event.button.button == SDL_BUTTON_LEFT) {
+				//	SDL_GetMouseState(&msx, &msy);
+				//	std::cout << msx << ":" << msy << "\n";
+					if (event.button.button == SDL_BUTTON_LEFT) {
+						SDL_GetMouseState(&msx, &msy);
+						mouseDownX = msx;
+						mouseDownY = msy;
+					}
+				//}
 			}; break;
 			case SDL_MOUSEBUTTONUP: {
 				int msx, msy;
-				std::cout << "mouse button up\n";
-				if (event.button.button == SDL_BUTTON_RIGHT) {
-					SDL_GetMouseState(&msx, &msy);
-					std::cout << msx << ":" << msy << "\n";
-				}
+				//std::cout << "mouse button up\n";
+				//if (event.button.button == SDL_BUTTON_RIGHT) {
+				//	SDL_GetMouseState(&msx, &msy);
+				//	std::cout << msx << ":" << msy << "\n";
+					if (event.button.button == SDL_BUTTON_LEFT) {
+						SDL_GetMouseState(&msx, &msy);
+						std::cout << (isClickableTextureClicked(clickableTexture, &clickableRect, mouseDownX, mouseDownY, msx, msy) ? "CLICKED" : "NOT CLICKED") << "\n";
+					}
+				//}
 			}; break;
 			case SDL_KEYDOWN: {
 				if (event.key.keysym.sym == SDLK_LEFT) {
@@ -137,9 +155,9 @@ void Game::handleEvents() {
 				
 			}; break;
 			case SDL_MOUSEMOTION: {
-				std::cout << event.motion.x << ":" << event.motion.y << std::endl;
-				dRectFont2.x = event.motion.x - dRectFont2.w / 2;
-				dRectFont2.y = event.motion.y - dRectFont2.h / 2;;
+				//std::cout << event.motion.x << ":" << event.motion.y << std::endl;
+				//dRectFont2.x = event.motion.x - dRectFont2.w / 2;
+				//dRectFont2.y = event.motion.y - dRectFont2.h / 2;
 			}; break;
 
 			default: break;
@@ -162,6 +180,22 @@ bool Game::isRunning() {
 	return Game::running;
 }
 
+bool Game::isClickableTextureClicked(SDL_Texture* t, SDL_Rect* r, int xDown, int yDown, int xUp, int yUp) {
+	int tw, th;
+	SDL_QueryTexture(t, 0, 0, &tw, &th);
+
+	//(r->x) (r->x + tw)
+	//(r->y) (r->y + th)
+
+	if ((xDown > r->x && xDown < (r->x + tw)) && (xUp > r->x && xUp < (r->x + tw)) &&
+		(yDown > r->y && yDown < (r->y + th)) && (yUp > r->y && yUp < (r->y + th))) {
+		// click coordinates witin texture location
+		return true;
+	}
+
+	return false;
+}
+
 Game::Game() {
 	Game::window = NULL;
 	Game::renderer = NULL;
@@ -170,10 +204,14 @@ Game::Game() {
 	Game::dRectFont2 = { 0, 0, 0, 0 };
 	Game::dRectFont1Wrapped = { 0, 0, 0, 0 };
 	Game::dRectFont2Wrapped = { 0, 0, 0, 0 };
+	Game::clickableRect = { 0, 0, 0, 0 };
 	Game::textTextureFont1 = NULL;
 	Game::textTextureFont2 = NULL;
 	Game::textTextureFont1Wrapped = NULL;
 	Game::textTextureFont2Wrapped = NULL;
+	Game::clickableTexture = NULL;
+	Game::mouseDownX = 0;
+	Game::mouseDownY = 0;
 }
 
 Game::~Game() {
