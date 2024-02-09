@@ -11,7 +11,8 @@ public:
 	void drawTexture(std::string id, int x, int y, int width, int height, SDL_Renderer* ren, 
 		SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-	void drawOneFrameFromTexture(std::string id, int x, int y, int width, int height, SDL_Renderer* ren,
+	void drawOneFrameFromTexture(std::string id, int x, int y, int width, int height, int currentRow, int CurrentFrame,
+		SDL_Renderer* ren,
 		SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 	static TextureManager* Instance() {

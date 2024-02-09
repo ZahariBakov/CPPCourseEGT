@@ -19,11 +19,12 @@ public:
 	void handleEvent();
 	void clean();
 	
-	bool isRunning();
+	bool isRunning() const;
 
 private:
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 	bool running;
+	int currentFrame;
 
 };
