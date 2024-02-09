@@ -51,12 +51,17 @@ void Game::handleEvents() {
 			case SDL_KEYDOWN: {
 				if (event.key.keysym.sym == SDLK_0) {
 					SoundManager::Instance()->changeVolume(1);
+					SoundManager::Instance()->changeVolumeSfk("woosh", 1);
 				}
 				if (event.key.keysym.sym == SDLK_9) {
 					SoundManager::Instance()->changeVolume(-1);
+					SoundManager::Instance()->changeVolumeSfk("woosh", -1);
 				}
 				if (event.key.keysym.sym == SDLK_SPACE) {
 					SoundManager::Instance()->pauseOrPlay();
+				}
+				if (event.key.keysym.sym == SDLK_5) {
+					SoundManager::Instance()->setMusicPosition(20.00);
 				}
 			}
 

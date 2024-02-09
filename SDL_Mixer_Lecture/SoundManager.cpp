@@ -68,6 +68,18 @@ void SoundManager::pauseOrPlay() {
 	}
 }
 
+void SoundManager::changeVolumeSfk(std::string id, int c) {
+	int currentVolume = Mix_VolumeChunk(s_mSfxs[id], -1);
+	currentVolume += c;
+	Mix_VolumeChunk(s_mSfxs[id], currentVolume);
+}
+
+void SoundManager::setMusicPosition(double pos) {
+	if (Mix_SetMusicPosition(pos) == -1) {
+		std::cout << "Something failed: " << Mix_GetError() << std::endl;
+	}
+}
+
 SoundManager::SoundManager() {
 	if (Mix_OpenAudio(48000, AUDIO_S16SYS, 2, 4096) == -1) {
 		std::cout << Mix_GetError() << std::endl;

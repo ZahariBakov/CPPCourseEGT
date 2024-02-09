@@ -23,6 +23,8 @@ public:
 	void playMusic(std::string id, int loop, int ms = 0);
 	void changeVolume(int change);
 	void pauseOrPlay();
+	void changeVolumeSfk(std::string id, int change);
+	void setMusicPosition(double pos);
 
 private:
 	static SoundManager* s_mInstance;
