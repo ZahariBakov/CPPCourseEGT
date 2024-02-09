@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include "TextureManager.h"
+
 class Game {
 public:
 	Game();
@@ -23,4 +25,5 @@ private:
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 	bool running;
+
 };

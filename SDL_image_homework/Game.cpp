@@ -3,12 +3,12 @@
 Game::Game() {
 	Game::window = NULL;
 	Game::renderer = NULL;
-	Game::running = NULL;
+	Game::running = true;
 }
 
 Game::~Game() {
-	delete window;
-	delete renderer;
+	//delete window;
+	//delete renderer;
 }
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags) {
@@ -27,6 +27,11 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 
 				// set white color for background
 				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+				// Add picture to window
+				TextureManager::Instance()->loadTexture("assets/soldier.png", "soldier", renderer);
+				TextureManager::Instance()->loadTexture("assets/car.png", "car", renderer);
+
 			}
 			else {
 				std::cout << "Renderer init failed!\n";
@@ -43,7 +48,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 		return false;
 	}
 
-	std::cout << "Init succes!\n";
+	std::cout << "Init success!\n";
 	running = true;
 
 	return true;
@@ -51,6 +56,13 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 
 void Game::render() {
 	SDL_RenderClear(renderer);
+
+	//TextureManager::Instance()->drawTexture("soldier", 200, 0, 640, 521, renderer);
+	//TextureManager::Instance()->drawTexture("soldier", 200, 0, 640, 521, renderer, SDL_FLIP_HORIZONTAL);
+
+	TextureManager::Instance()->drawTexture("car", 0, 220, 225, 225, renderer);
+	TextureManager::Instance()->drawTexture("car", 1055, 220, 225, 225, renderer, SDL_FLIP_HORIZONTAL);
+
 	SDL_RenderPresent(renderer);
 }
 
