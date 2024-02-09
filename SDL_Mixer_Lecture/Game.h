@@ -1,6 +1,9 @@
 #pragma once
 
 #include <SDL.h>
+#include <SDL_mixer.h>
+
+#include "SoundManager.h"
 
 class Game {
 public:
@@ -15,6 +18,8 @@ public:
 	void clean();
 
 	bool isRunning();
+
+	void LoadAndPlaySound();
 
 private:
 	SDL_Window* window = NULL;

@@ -47,8 +47,20 @@ void Game::handleEvents() {
 	SDL_Event event;
 	if (SDL_PollEvent(&event)) {
 		switch (event.type) {
-		case SDL_QUIT: running = false; break;
-		default: break;
+			case SDL_QUIT: running = false; break;
+			case SDL_KEYDOWN: {
+				if (event.key.keysym.sym == SDLK_0) {
+					SoundManager::Instance()->changeVolume(1);
+				}
+				if (event.key.keysym.sym == SDLK_9) {
+					SoundManager::Instance()->changeVolume(-1);
+				}
+				if (event.key.keysym.sym == SDLK_SPACE) {
+					SoundManager::Instance()->pauseOrPlay();
+				}
+			}
+
+			default: break;
 		}
 	}
 }
@@ -66,6 +78,16 @@ void Game::clean() {
 
 bool Game::isRunning() {
 	return Game::running;
+}
+
+void Game::LoadAndPlaySound() {
+	SoundManager::Instance()->load("assets/rf-16.mp3", "bg_music", 1);
+	SoundManager::Instance()->load("assets/gamer-213.wav", "game_over", 0);
+	SoundManager::Instance()->load("assets/noti-212.wav", "notification", 0);
+	SoundManager::Instance()->load("assets/woosh-89.wav", "woosh", 0);
+
+	SoundManager::Instance()->playMusic("bg_music", 0, 5000);
+	//SoundManager::Instance()->playSound("woosh", -1, 0);
 }
 
 Game::Game() {

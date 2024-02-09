@@ -16,14 +16,17 @@ int main(int argc, char* argv[]) {
 		SDL_WINDOWPOS_CENTERED,
 		WINDOW_WIDTH, WINDOW_HEIGHT,
 		SDL_WINDOW_RESIZABLE);
+	
+	game->LoadAndPlaySound();
 
 	while (game->isRunning()) {
 		game->handleEvents();
-		game->update();
+		game->update(); 
 		game->render();
 	}
 
 	game->clean();
 
 	return 0;
+
 }
