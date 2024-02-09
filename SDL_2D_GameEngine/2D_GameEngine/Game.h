@@ -1,10 +1,11 @@
 #pragma once
 
-#include "SDL.h"
 #include <iostream>
 
-class Game
-{
+#include "SDL.h"
+#include "SDL_image.h"
+
+class Game {
 public:
 	Game();
 	~Game();
