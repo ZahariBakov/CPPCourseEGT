@@ -3,13 +3,12 @@
 Game::Game() {
 	Game::window = NULL;
 	Game::renderer = NULL;
-	Game::running = true;
-	Game::currentFrame = 0;
+	Game::running = NULL;
 }
 
 Game::~Game() {
-	//delete window;
-	//delete renderer;
+	delete window;
+	delete renderer;
 }
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags) {
@@ -29,11 +28,22 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 				// set white color for background
 				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-				// Add picture to window
-				TextureManager::Instance()->loadTexture("assets/soldier.png", "soldier", renderer);
-				TextureManager::Instance()->loadTexture("assets/car.png", "car", renderer);
-				TextureManager::Instance()->loadTexture("assets/cat-sprite.png", "cat-sprite", renderer);
+				// add picture to window
+				SDL_Surface* tmpSurface = IMG_Load("assets/small-car.png");
+				texture = SDL_CreateTextureFromSurface(renderer, tmpSurface);
+				SDL_FreeSurface(tmpSurface);
 
+				SDL_QueryTexture(texture, NULL, NULL, &srcRectangle.w, &srcRectangle.h);
+
+				srcRectangle.x = 0;
+				srcRectangle.y = 0;
+				srcRectangle.w = 64;
+				srcRectangle.h = 64;
+
+				destRectangle.x = 0;
+				destRectangle.y = 0;
+				destRectangle.w = srcRectangle.w;
+				destRectangle.h = srcRectangle.h;
 			}
 			else {
 				std::cout << "Renderer init failed!\n";
@@ -50,7 +60,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 		return false;
 	}
 
-	std::cout << "Init success!\n";
+	std::cout << "Init succes!\n";
 	running = true;
 
 	return true;
@@ -59,19 +69,39 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 void Game::render() {
 	SDL_RenderClear(renderer);
 
-	//TextureManager::Instance()->drawTexture("soldier", 200, 0, 640, 521, renderer);
-	//TextureManager::Instance()->drawTexture("soldier", 200, 0, 640, 521, renderer, SDL_FLIP_HORIZONTAL);
-
-	TextureManager::Instance()->drawTexture("car", 0, 0, 225, 225, renderer);
-	//TextureManager::Instance()->drawTexture("car", 1055, 220, 225, 225, renderer, SDL_FLIP_HORIZONTAL);
-
-	TextureManager::Instance()->drawOneFrameFromTexture("cat-sprite", 0, 300, 221, 150, 1, currentFrame, renderer);
+	SDL_RenderCopy(renderer, texture, &srcRectangle, &destRectangle);
 
 	SDL_RenderPresent(renderer);
 }
 
 void Game::update() {
-	currentFrame = int(((SDL_GetTicks() / 150) % 5));
+	int ww, wh;
+	SDL_GetWindowSize(window, &ww, &wh);
+
+	// Center the image vertically
+	destRectangle.y = (wh - destRectangle.h) / 2;
+
+	int speed = 5;
+
+	if (SDL_GetTicks() % 50 == 0) {
+		destRectangle.x += speed;
+
+		if (destRectangle.x >= (ww - destRectangle.w)) {
+			destRectangle.x = ww - destRectangle.w;
+			speed *= -1;
+			speed = speed / abs(speed);
+		}
+
+		if (destRectangle.x <= 0) {
+			destRectangle.x = 0;
+			speed *= -1;
+			speed = speed / abs(speed);
+		}
+
+		if (speed > 11) {
+			speed /= abs(speed);
+		}
+	}
 }
 
 void Game::handleEvent() {
@@ -79,12 +109,12 @@ void Game::handleEvent() {
 
 	if (SDL_PollEvent(&event)) {
 		switch (event.type) {
-			case SDL_QUIT:
-				running = false;
-				break;
+		case SDL_QUIT:
+			running = false;
+			break;
 
-			default:
-				break;
+		default:
+			break;
 		}
 	}
 }
