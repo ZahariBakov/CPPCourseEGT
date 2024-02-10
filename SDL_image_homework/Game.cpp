@@ -1,5 +1,9 @@
 #include "Game.h"
 
+static int speed = 5;
+const  int maxSpeed = 30;
+static int lap = 1;
+
 Game::Game() {
 	Game::window = NULL;
 	Game::renderer = NULL;
@@ -81,25 +85,33 @@ void Game::update() {
 	// Center the image vertically
 	destRectangle.y = (wh - destRectangle.h) / 2;
 
-	int speed = 5;
-
 	if (SDL_GetTicks() % 50 == 0) {
 		destRectangle.x += speed;
 
 		if (destRectangle.x >= (ww - destRectangle.w)) {
 			destRectangle.x = ww - destRectangle.w;
 			speed *= -1;
-			speed = speed / abs(speed);
+			speed--;
+
+			if (speed == maxSpeed) {
+				speed = maxSpeed;
+			}	
+
+			std::cout << "Speed is: " << abs(speed) << std::endl;
 		}
 
 		if (destRectangle.x <= 0) {
 			destRectangle.x = 0;
 			speed *= -1;
-			speed = speed / abs(speed);
-		}
+			speed++;
 
-		if (speed > 11) {
-			speed /= abs(speed);
+			lap++;
+
+			if (speed == maxSpeed) {
+				speed = maxSpeed;
+			}
+
+			std::cout << "Lap is: " << lap << "\nSpeed is: " << speed << std::endl;
 		}
 	}
 }
