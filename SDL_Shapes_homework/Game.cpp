@@ -44,13 +44,19 @@ void Game::render() {
 	int ww, wh;
 	SDL_GetWindowSize(window, &ww, &wh);
 
-	Shapes::drawRecnatgle(renderer, ww / 4, wh / 4, ww / 2, wh / 2, 20);
+	Shapes::drawRecnatgle(renderer, ww / 4, wh / 4, ww / 2, wh / 2, 10);
 
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0xFF);
 	Shapes::drawCircle(renderer, ww / 2, wh / 2, wh / 2);
 
 	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 	Shapes::drawPentagon(renderer, ww / 2, wh / 2, 360);
+
+	SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0xFF);
+	Shapes::drawHexagon(renderer, ww / 2, wh / 2, 360);
+
+	SDL_SetRenderDrawColor(renderer, 0, 0, 205, 255);
+	Shapes::drawPolygon(renderer, ww / 2, wh / 2, Game::minSides, 150);
 
 
 	SDL_RenderPresent(renderer);
@@ -60,8 +66,21 @@ void Game::handleEvents() {
 	SDL_Event event;
 	if (SDL_PollEvent(&event)) {
 		switch (event.type) {
-		case SDL_QUIT: running = false; break;
-		default: break;
+		case SDL_QUIT: 
+			running = false; 
+			break;
+		case SDL_KEYDOWN: {
+			if (event.key.keysym.sym == SDLK_UP) {
+				Game::minSides++;
+			}
+			if (event.key.keysym.sym == SDLK_DOWN) {
+				(minSides > 3) ? Game::minSides -= 1 : Game::minSides;
+			}
+			break;
+		}; 
+
+		default: 
+			break;
 		}
 	}
 }
@@ -85,6 +104,7 @@ Game::Game() {
 	Game::window = NULL;
 	Game::renderer = NULL;
 	Game::running = true;
+	Game::minSides = 3;
 }
 
 Game::~Game() {

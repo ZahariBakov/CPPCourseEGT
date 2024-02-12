@@ -18,6 +18,8 @@ public:
 
 	bool isRunning() const;
 
+	int minSides;
+
 private:
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
