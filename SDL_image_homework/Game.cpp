@@ -85,28 +85,8 @@ void Game::render() {
 	// Render the first image
 	SDL_RenderCopy(renderer, texture, &srcRectangle, &destRectangle);
 
-	// Get the window size
-	int ww, wh;
-	SDL_GetWindowSize(window, &ww, &wh);
-
 	// Render the second image
 	TextureManager::Instance()->drawTexture("car", secondImageX, 0, 64, 64, renderer, flipCar);
-
-	if (secondImageX >= (ww - destRectangle.w)) {
-		flipCar = SDL_FLIP_HORIZONTAL;
-	}
-
-	if (secondImageX <= 0) {
-		secondImageX = 0;
-		flipCar = SDL_FLIP_NONE;
-	}
-
-	if (flipCar != SDL_FLIP_HORIZONTAL) {
-		secondImageX++;
-	}
-	else {
-		secondImageX--;
-	}
 
 	SDL_RenderPresent(renderer);
 }
@@ -119,6 +99,7 @@ void Game::update() {
 	destRectangle.y = (wh - destRectangle.h) / 2;
 
 	destRectangle.x += speed;
+	secondImageX += speed;
 
 	if (destRectangle.x >= (ww - destRectangle.w)) {
 		destRectangle.x = ww - destRectangle.w;
@@ -140,6 +121,14 @@ void Game::update() {
 
 	if (speed >= maxSpeed) {
 		speed = maxSpeed;
+	}
+
+	if (secondImageX >= (ww - destRectangle.w)) {
+		flipCar = SDL_FLIP_HORIZONTAL;
+	}
+
+	if (secondImageX <= 0) {
+		flipCar = SDL_FLIP_NONE;
 	}
 }
 

@@ -2,8 +2,8 @@
 
 Game* game = NULL;
 
-const int WINDOW_WIDTH = 1280;
-const int WINDOWS_HEIGHT = 720;
+const int WINDOW_WIDTH = 720;
+const int WINDOWS_HEIGHT = 360;
 
 int main(int argc, char* argv[]) {
 	const int FPS = 60;
