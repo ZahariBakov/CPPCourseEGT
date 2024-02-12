@@ -23,8 +23,9 @@ private:
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 	bool running;
+	int currentFrame;
 
-	SDL_Texture* texture;
+	SDL_Texture* texture = NULL;
 	SDL_Rect srcRectangle;
 	SDL_Rect destRectangle;
 };

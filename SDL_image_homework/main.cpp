@@ -6,6 +6,11 @@ const int WINDOW_WIDTH = 1280;
 const int WINDOWS_HEIGHT = 720;
 
 int main(int argc, char* argv[]) {
+	const int FPS = 60;
+	const int frameDelay = 1500 / FPS;
+
+	Uint32 frameStrart;
+	int frameTime;
 
 	game = new Game();
 
@@ -15,9 +20,17 @@ int main(int argc, char* argv[]) {
 		SDL_WINDOW_RESIZABLE); // Make window resizable
 
 	while (game->isRunning()) {
+		frameStrart = SDL_GetTicks();
+
 		game->handleEvent();
 		game->update();
 		game->render();
+
+		frameTime = SDL_GetTicks() - frameStrart;
+
+		if (frameDelay > frameTime) {
+			SDL_Delay(frameDelay - frameTime);
+		}
 	}
 
 	game->clean();

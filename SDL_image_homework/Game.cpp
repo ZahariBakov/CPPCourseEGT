@@ -1,13 +1,20 @@
 #include "Game.h"
+#include "TextureManager.h"
 
 static int speed = 5;
-const  int maxSpeed = 30;
+static int speedSecondCar = 5;
+const  int maxSpeed = 20;
 static int lap = 1;
+static int secondImageX = 0;
+SDL_RendererFlip flipCar = SDL_FLIP_NONE;
 
 Game::Game() {
 	Game::window = NULL;
 	Game::renderer = NULL;
-	Game::running = NULL;
+	Game::running = true;
+	Game::currentFrame = 0;
+	Game::destRectangle.x = destRectangle.y = destRectangle.w = destRectangle.h = 0;
+	Game::srcRectangle.x = srcRectangle.y = srcRectangle.w = srcRectangle.h = 0;
 }
 
 Game::~Game() {
@@ -48,6 +55,8 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 				destRectangle.y = 0;
 				destRectangle.w = srcRectangle.w;
 				destRectangle.h = srcRectangle.h;
+
+				TextureManager::Instance()->loadTexture("assets/small-car.png", "car", renderer);
 			}
 			else {
 				std::cout << "Renderer init failed!\n";
@@ -73,46 +82,64 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 void Game::render() {
 	SDL_RenderClear(renderer);
 
+	// Render the first image
 	SDL_RenderCopy(renderer, texture, &srcRectangle, &destRectangle);
+
+	// Get the window size
+	int ww, wh;
+	SDL_GetWindowSize(window, &ww, &wh);
+
+	// Render the second image
+	TextureManager::Instance()->drawTexture("car", secondImageX, 0, 64, 64, renderer, flipCar);
+
+	if (secondImageX >= (ww - destRectangle.w)) {
+		flipCar = SDL_FLIP_HORIZONTAL;
+	}
+
+	if (secondImageX <= 0) {
+		secondImageX = 0;
+		flipCar = SDL_FLIP_NONE;
+	}
+
+	if (flipCar != SDL_FLIP_HORIZONTAL) {
+		secondImageX++;
+	}
+	else {
+		secondImageX--;
+	}
 
 	SDL_RenderPresent(renderer);
 }
+
 
 void Game::update() {
 	int ww, wh;
 	SDL_GetWindowSize(window, &ww, &wh);
 
-	// Center the image vertically
 	destRectangle.y = (wh - destRectangle.h) / 2;
 
-	if (SDL_GetTicks() % 50 == 0) {
-		destRectangle.x += speed;
+	destRectangle.x += speed;
 
-		if (destRectangle.x >= (ww - destRectangle.w)) {
-			destRectangle.x = ww - destRectangle.w;
-			speed *= -1;
-			speed--;
+	if (destRectangle.x >= (ww - destRectangle.w)) {
+		destRectangle.x = ww - destRectangle.w;
+		speed *= -1;
+		speed--;
 
-			if (speed == maxSpeed) {
-				speed = maxSpeed;
-			}	
+		std::cout << "Speed is: " << abs(speed) << std::endl;
+	}
 
-			std::cout << "Speed is: " << abs(speed) << std::endl;
-		}
+	if (destRectangle.x <= 0) {
+		destRectangle.x = 0;
+		speed *= -1;
+		speed++;
 
-		if (destRectangle.x <= 0) {
-			destRectangle.x = 0;
-			speed *= -1;
-			speed++;
+		lap++;
 
-			lap++;
+		std::cout << "Lap is: " << lap << "\nSpeed is: " << speed << std::endl;
+	}
 
-			if (speed == maxSpeed) {
-				speed = maxSpeed;
-			}
-
-			std::cout << "Lap is: " << lap << "\nSpeed is: " << speed << std::endl;
-		}
+	if (speed >= maxSpeed) {
+		speed = maxSpeed;
 	}
 }
 
