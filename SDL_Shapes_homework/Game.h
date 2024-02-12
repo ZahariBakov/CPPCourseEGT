@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <SDL.h>
+#include "Shapes.h"
 
 class Game {
 public:

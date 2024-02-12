@@ -44,23 +44,13 @@ void Game::render() {
 	int ww, wh;
 	SDL_GetWindowSize(window, &ww, &wh);
 
-	int rectX = ww / 8;
-	int rectY = wh / 8;
-	int rectWidth = ww - (rectX * 2);
-	int rectHeight = wh - (rectY * 2);
+	Shapes::drawRecnatgle(renderer, ww / 4, wh / 4, ww / 2, wh / 2, 20);
 
-	SDL_Rect fillRect = { rectX, rectY, rectWidth, rectHeight };
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
-	SDL_RenderFillRect(renderer, &fillRect);
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0xFF);
+	Shapes::drawCircle(renderer, ww / 2, wh / 2, wh / 2);
 
-	int secondRectX = ww / 4;
-	int secondRectY = wh / 4;
-	int secondRectWidth = ww / 2;
-	int secondRectHeight = wh / 2;
-
-	SDL_Rect secondFillRect = { secondRectX, secondRectY, secondRectWidth, secondRectHeight };
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderFillRect(renderer, &secondFillRect);
+	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+	Shapes::drawPentagon(renderer, ww / 2, wh / 2, 360);
 
 
 	SDL_RenderPresent(renderer);
