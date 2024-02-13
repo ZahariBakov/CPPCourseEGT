@@ -29,7 +29,13 @@ private:
 
 	SDL_Texture* dealerTexture;
 	SDL_Texture* playerTexture;
+	SDL_Texture* scoreTexture;
+	SDL_Texture* moneyTexture;
 
 	SDL_Rect dealerRect;
 	SDL_Rect playerRect;
+	SDL_Rect scoreRect;
+	SDL_Rect moneyRect;
+
+	int playerMoney;
 };

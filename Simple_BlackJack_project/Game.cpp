@@ -1,5 +1,6 @@
 #include "Game.h"
-#include <iostream>
+
+#include <string>
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags) {
 
@@ -13,7 +14,6 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 
 			if (renderer != 0) {
 				std::cout << "Renderer creation success!\n";
-				SDL_SetRenderDrawColor(renderer, 0, 153, 0, 255);
 
 			}
 			else {
@@ -42,14 +42,15 @@ bool Game::ttf_init() {
 	}
 
 	TTF_Font* font1 = TTF_OpenFont("fonts/Arcade.ttf", 24);
+	TTF_Font* font2 = TTF_OpenFont("fonts/COLONNA.ttf", 20);
 
-	if (font1 == NULL) {
-		std::cout << "Font 1 is NULL" << std::endl;
+	if (font1 == NULL ||  font2 == NULL) {
+		std::cout << "Font 1 or Font 2 is NULL" << std::endl;
 		return false;
 	}
 
 	int ww, wh;
-	SDL_GetWindowSize(window, &ww, &wh); // get window size
+	SDL_GetWindowSize(window, &ww, &wh);
 
 	SDL_Surface* tempSurfaceText = NULL;
 
@@ -59,6 +60,12 @@ bool Game::ttf_init() {
 	tempSurfaceText = TTF_RenderText_Blended(font1, "PLAYER :", { 0, 0, 0, 255 });
 	playerTexture = SDL_CreateTextureFromSurface(renderer, tempSurfaceText);
 
+	std::string t = std::to_string(playerMoney);
+	char const* playerMoneyToString = t.c_str();
+
+	tempSurfaceText = TTF_RenderText_Blended(font2, playerMoneyToString, {0, 0, 0, 255});
+	moneyTexture = SDL_CreateTextureFromSurface(renderer, tempSurfaceText);
+
 	int tw, th;
 	SDL_QueryTexture(dealerTexture, 0, 0, &tw, &th);
 	dealerRect = { 10, 10, tw, th };
@@ -66,22 +73,31 @@ bool Game::ttf_init() {
 	SDL_QueryTexture(playerTexture, 0, 0, &tw, &th);
 	playerRect = { 10, wh / 2 + 10, tw, th };
 
+	SDL_QueryTexture(moneyTexture, 0, 0, &tw, &th);
+	moneyRect = { 10, wh / 2 + 30, tw, th };
+
 	SDL_FreeSurface(tempSurfaceText);
 	TTF_CloseFont(font1);
+	TTF_CloseFont(font2);
 
 	return true;
 }
 
 void Game::render() {
-	//SDL_SetRenderDrawColor(renderer, 0, 153, 0, 255); // base table color
+	SDL_SetRenderDrawColor(renderer, 0, 153, 0, 255); // base table color
 	SDL_RenderClear(renderer);
 
-	// drawing a line in the middle
-	//SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	//SDL_RenderDrawLine(renderer, 0, wh / 2, ww, wh / 2);
+	int ww, wh;
+	SDL_GetWindowSize(window, &ww, &wh); // get window size
 
+	// drawing a line in the middle
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderDrawLine(renderer, 0, wh / 2, ww, wh / 2);
+
+	// Writing DEALER and PLAYER on screen
 	SDL_RenderCopy(renderer, dealerTexture, NULL, &dealerRect);
 	SDL_RenderCopy(renderer, playerTexture, NULL, &playerRect);
+	SDL_RenderCopy(renderer, moneyTexture,  NULL, &moneyRect);
 
 	SDL_RenderPresent(renderer);
 }
@@ -111,13 +127,22 @@ bool Game::isRunning() const {
 }
 
 Game::Game() {
-	Game::window = NULL;
+	Game::window =   NULL;
 	Game::renderer = NULL;
+
 	Game::running = true;
+
 	Game::dealerTexture = NULL;
 	Game::playerTexture = NULL;
+	Game::scoreTexture =  NULL;
+	Game::moneyTexture =  NULL;
+
 	Game::dealerRect = { 0, 0, 0, 0 };
 	Game::playerRect = { 0, 0, 0, 0 };
+	Game::scoreRect =  { 0, 0, 0, 0 };
+	Game::moneyRect =  { 0, 0, 0, 0 };
+
+	Game::playerMoney = 100000;
 }
 
 Game::~Game() {
