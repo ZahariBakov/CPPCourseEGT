@@ -58,6 +58,9 @@ void Game::render() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 205, 255);
 	Shapes::drawPolygon(renderer, ww / 2, wh / 2, Game::minSides, 150);
 
+	SDL_SetRenderDrawColor(renderer, 0xFF, 128, 0x00, 0xFF);
+	Shapes::drawEllipse(renderer, 250, 150, ww / 2, wh / 2);
+
 
 	SDL_RenderPresent(renderer);
 }
@@ -76,8 +79,7 @@ void Game::handleEvents() {
 			if (event.key.keysym.sym == SDLK_DOWN) {
 				(minSides > 3) ? Game::minSides -= 1 : Game::minSides;
 			}
-			break;
-		}; 
+		}; break;
 
 		default: 
 			break;
@@ -108,6 +110,6 @@ Game::Game() {
 }
 
 Game::~Game() {
-	delete window;
-	delete renderer;
+	//delete window;
+	//delete renderer;
 }

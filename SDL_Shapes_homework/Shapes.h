@@ -9,4 +9,6 @@ public:
 	static void drawHexagon(SDL_Renderer* renderer, int xpos, int ypos, int side);
 	static void drawCircle(SDL_Renderer* renderer, int xpos, int ypos, int radius);
 	static void drawPolygon(SDL_Renderer* renderer, int xpos, int ypos, int side, int radius);
+	static void drawEllipse(SDL_Renderer* renderer, int xRad, int yRad, int xpos, int ypos);
+
 };

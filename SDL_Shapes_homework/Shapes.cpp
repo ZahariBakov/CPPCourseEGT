@@ -89,3 +89,68 @@ void Shapes::drawPolygon(SDL_Renderer* renderer, int xpos, int ypos, int side, i
 
 	delete[] points;
 }
+
+void Shapes::drawEllipse(SDL_Renderer* renderer, int xRad, int yRad, int xpos, int ypos) {
+	float dx, dy, d1, d2, x, y;
+	x = 0;
+	y = yRad;
+
+	// Initial decision parameter of region 1
+	d1 = (yRad * yRad) - (xRad * xRad * yRad) + (0.25 * xRad * xRad);
+	dx = 2 * yRad * yRad * x;
+	dy = 2 * xRad * xRad * y;
+
+	while (dx < dy) {
+
+		// Draw points based on 4-way symmetry
+		SDL_RenderDrawPoint(renderer, x + xpos, y + ypos);
+		SDL_RenderDrawPoint(renderer, -x + xpos, y + ypos);
+		SDL_RenderDrawPoint(renderer, x + xpos, -y + ypos);
+		SDL_RenderDrawPoint(renderer, -x + xpos, -y + ypos);
+
+		// Checking and updating value of
+		// decision parameter based on algorithm
+		if (d1 < 0) {
+			x++;
+			dx = dx + (2 * yRad * yRad);
+			d1 = d1 + dx + (yRad * yRad);
+		}
+		else {
+			x++;
+			y--;
+			dx = dx + (2 * yRad * yRad);
+			dy = dy - (2 * xRad * xRad);
+			d1 = d1 + dx - dy + (yRad * yRad);
+		}
+	}
+
+	// Decision parameter of region 2
+	d2 = ((yRad * yRad) * ((x + 0.5) * (x + 0.5))) +
+		((xRad * xRad) * ((y - 1) * (y - 1))) -
+		(xRad * xRad * yRad * yRad);
+
+	// Plotting points of region 2
+	while (y >= 0) {
+
+		// Draw points based on 4-way symmetry
+		SDL_RenderDrawPoint(renderer, x + xpos, y + ypos);
+		SDL_RenderDrawPoint(renderer, -x + xpos, y + ypos);
+		SDL_RenderDrawPoint(renderer, x + xpos, -y + ypos);
+		SDL_RenderDrawPoint(renderer, -x + xpos, -y + ypos);
+
+		// Checking and updating parameter
+		// value based on algorithm
+		if (d2 > 0) {
+			y--;
+			dy = dy - (2 * xRad * xRad);
+			d2 = d2 + (xRad * xRad) - dy;
+		}
+		else {
+			y--;
+			x++;
+			dx = dx + (2 * yRad * yRad);
+			dy = dy - (2 * xRad * xRad);
+			d2 = d2 + dx - dy + (xRad * xRad);
+		}
+	}
+}
