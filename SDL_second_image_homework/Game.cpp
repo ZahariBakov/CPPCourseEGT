@@ -1,6 +1,6 @@
 #include "Game.h"
-static int mrSmallX = 288;
-static int mrSmallY = 148;
+static int mrSmallX = 297;
+static int mrSmallY = 155;
 
 Game::Game() {
 	Game::window = NULL;
@@ -10,6 +10,8 @@ Game::Game() {
 	Game::mouseDownY = 0;
 	Game::mouseDown = 0;
 	Game::mouseUp = 0;
+	Game::currentFrame = 0;
+	Game::currentRow = 1;
 }
 
 Game::~Game() {
@@ -36,8 +38,11 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 				TextureManager::Instance()->loadTexture("assets/bunny-small.png", "bunny", renderer);
 				TextureManager::Instance()->loadTexture("assets/hedgehog-small.png", "hedgehog", renderer);
 
-				TextureManager::Instance()->loadTexture("assets/mr.small.png", "small", renderer);
-				TextureManager::Instance()->toggleVisibility("small");
+				//TextureManager::Instance()->loadTexture("assets/mr.small.png", "small", renderer);
+				//TextureManager::Instance()->toggleVisibility("small");
+
+				TextureManager::Instance()->loadTexture("assets/cyrus-sprite.png", "sprite", renderer);
+				TextureManager::Instance()->toggleVisibility("sprite");
 			}
 			else {
 				std::cout << "Renderer init failed!\n";
@@ -73,7 +78,10 @@ void Game::render() {
 	TextureManager::Instance()->drawTexture("cat", ww / 2, 0, ww / 2, wh / 2, renderer);
 	TextureManager::Instance()->drawTexture("bunny", 0, wh / 2, ww / 2, wh / 2, renderer);
 	TextureManager::Instance()->drawTexture("hedgehog", ww / 2, wh / 2, ww / 2, wh / 2, renderer);
-	TextureManager::Instance()->drawTexture("small", mrSmallX, mrSmallY, 64, 64, renderer);
+	//TextureManager::Instance()->drawTexture("small", mrSmallX, mrSmallY, 64, 64, renderer);
+
+	// animates the sprite sheet with the help of the update() function
+	TextureManager::Instance()->drawOneFrameFromTexture("sprite", mrSmallX, mrSmallY, 46, 49, 1, currentFrame, renderer, frameFlip);
 
 	TextureManager::Instance()->drawRecnatgle(renderer, 0, 0, 40, 20, 2);
 
@@ -84,7 +92,16 @@ void Game::render() {
 	SDL_RenderPresent(renderer);
 }
 
-void Game::update() {}
+void Game::update() {
+	int numberOfFramesInSpriteSheet = 4;
+
+	if (currentRow == 5) {
+		int numberOfFramesInSpriteSheet = 8;
+	}
+	
+	int animationSpeed = 100; // lower is faster, min = 1
+	currentFrame = int(((SDL_GetTicks() / animationSpeed) % numberOfFramesInSpriteSheet));;
+}
 
 void Game::handleEvent() {
 	SDL_Event event;

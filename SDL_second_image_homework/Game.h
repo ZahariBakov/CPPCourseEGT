@@ -27,4 +27,8 @@ private:
 	bool running;
 	int mouseDownX, mouseDownY;
 	int mouseDown, mouseUp;
+
+	SDL_RendererFlip frameFlip = SDL_FLIP_NONE;
+	int currentFrame;
+	int currentRow;
 };
