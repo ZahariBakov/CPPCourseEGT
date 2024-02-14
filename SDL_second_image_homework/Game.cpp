@@ -75,6 +75,8 @@ void Game::render() {
 	TextureManager::Instance()->drawTexture("hedgehog", ww / 2, wh / 2, ww / 2, wh / 2, renderer);
 	TextureManager::Instance()->drawTexture("small", mrSmallX, mrSmallY, 64, 64, renderer);
 
+	TextureManager::Instance()->drawRecnatgle(renderer, 0, 0, 40, 20, 2);
+
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderDrawLine(renderer, ww / 2, 0, ww / 2, wh);
 	SDL_RenderDrawLine(renderer, 0, wh / 2, ww, wh / 2);
@@ -142,18 +144,24 @@ void Game::handleEvent() {
 		}
 		case SDL_KEYDOWN: {
 			if (event.key.keysym.sym == SDLK_UP && mrSmallY > 0) {
-				mrSmallY-= 5;
+				mrSmallY -= 5;
 			}
 			if (event.key.keysym.sym == SDLK_DOWN && mrSmallY < wh - 64) {
-				mrSmallY+= 5;
+				mrSmallY += 5;
 			}
 			if (event.key.keysym.sym == SDLK_LEFT && mrSmallX > 0) {
-				mrSmallX-= 5;
+				mrSmallX -= 5;
 			}
 			if (event.key.keysym.sym == SDLK_RIGHT && mrSmallX < ww - 64) {
-				mrSmallX+=  5;
+				mrSmallX += 5;
 			}
-		}
+		}; break;
+		case SDL_MOUSEMOTION: {
+			SDL_GetMouseState(&msx, &msy);
+			TextureManager::rgb[0] = (int)(((double)msx / ww) * 255);
+			TextureManager::rgb[1] = (int)(((double)msy / wh) * 255);
+			TextureManager::rgb[2] = (int)(((((double)msx / ww) + ((double)msy / wh)) / 2) * 255);
+		}; break;
 
 		default:
 			break;

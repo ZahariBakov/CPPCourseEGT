@@ -1,5 +1,7 @@
 #include "TextureManager.h"
 
+int TextureManager::rgb[3] = { 0, 0, 0 };
+
 bool TextureManager::loadTexture(const char* fileName, std::string id, SDL_Renderer* ren) {
     SDL_Surface* tempSurface = IMG_Load(fileName);
 
@@ -58,6 +60,16 @@ TextureManager* TextureManager::Instance() {
     }
 
     return instance;
+}
+
+void TextureManager::drawRecnatgle(SDL_Renderer* renderer, int xpos, int ypos, int width, int height, int border) {
+    SDL_Rect fillRect = { xpos, ypos, width, height };
+    SDL_SetRenderDrawColor(renderer, TextureManager::rgb[0], TextureManager::rgb[1], TextureManager::rgb[2], 255);
+    SDL_RenderFillRect(renderer, &fillRect);
+
+    SDL_Rect secondFillRect = { xpos + border, ypos + border, width - (border * 2), height - (border * 2) };
+    SDL_SetRenderDrawColor(renderer, TextureManager::rgb[2], TextureManager::rgb[0], TextureManager::rgb[1], 255);
+    SDL_RenderFillRect(renderer, &secondFillRect);
 }
 
 TextureManager* TextureManager::instance = 0;

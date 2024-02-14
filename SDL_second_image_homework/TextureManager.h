@@ -15,6 +15,9 @@ public:
 
 	static TextureManager* Instance();
 
+	static void drawRecnatgle(SDL_Renderer* renderer, int xpos, int ypos, int width, int height, int border);
+	static int rgb[];
+
 private:
 	std::map<std::string, SDL_Texture*> textureMap; //map to store the loaded textures with loadTexture
 	std::map<std::string, bool> display; //map to store instruction for displaying the loaded textures
