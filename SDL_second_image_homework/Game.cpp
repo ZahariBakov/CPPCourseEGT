@@ -1,4 +1,6 @@
 #include "Game.h"
+static int mrSmallX = 288;
+static int mrSmallY = 148;
 
 Game::Game() {
 	Game::window = NULL;
@@ -71,7 +73,7 @@ void Game::render() {
 	TextureManager::Instance()->drawTexture("cat", ww / 2, 0, ww / 2, wh / 2, renderer);
 	TextureManager::Instance()->drawTexture("bunny", 0, wh / 2, ww / 2, wh / 2, renderer);
 	TextureManager::Instance()->drawTexture("hedgehog", ww / 2, wh / 2, ww / 2, wh / 2, renderer);
-	TextureManager::Instance()->drawTexture("small", ww / 2 - 32, wh / 2 - 32, 64, 64, renderer);
+	TextureManager::Instance()->drawTexture("small", mrSmallX, mrSmallY, 64, 64, renderer);
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderDrawLine(renderer, ww / 2, 0, ww / 2, wh);
@@ -94,12 +96,17 @@ void Game::handleEvent() {
 			running = false;
 			break;
 		case SDL_MOUSEBUTTONDOWN: {
-			
 			if (event.button.button == SDL_BUTTON_LEFT) {
 				SDL_GetMouseState(&msx, &msy);
 				mouseDownX = msx;
 				mouseDownY = msy;
 				Game::mouseDown = (msx > ww / 2) + (msy > wh / 2) * 2;
+			}
+
+			if (event.button.button == SDL_BUTTON_RIGHT) {
+				SDL_GetMouseState(&msx, &msy);
+				mrSmallX = msx - 32;
+				mrSmallY = msy - 32;
 			}
 		}; break;
 		case SDL_MOUSEBUTTONUP: {
@@ -131,6 +138,20 @@ void Game::handleEvent() {
 					default:
 						break;
 				}
+			}
+		}
+		case SDL_KEYDOWN: {
+			if (event.key.keysym.sym == SDLK_UP && mrSmallY > 0) {
+				mrSmallY-= 5;
+			}
+			if (event.key.keysym.sym == SDLK_DOWN && mrSmallY < wh - 64) {
+				mrSmallY+= 5;
+			}
+			if (event.key.keysym.sym == SDLK_LEFT && mrSmallX > 0) {
+				mrSmallX-= 5;
+			}
+			if (event.key.keysym.sym == SDLK_RIGHT && mrSmallX < ww - 64) {
+				mrSmallX+=  5;
 			}
 		}
 
