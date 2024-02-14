@@ -9,10 +9,7 @@ public:
 	bool loadTexture(const char* fileName, std::string id, SDL_Renderer* ren);
 
 	void drawTexture(std::string id,int x, int y, int width, int height, SDL_Renderer* ren, 
-		SDL_RendererFlip flip = SDL_FLIP_NONE, int rotation = 0);
-
-	void drawOneFrameFromTexture(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, 
-		SDL_Renderer* ren, SDL_RendererFlip flip = SDL_FLIP_NONE);
+		SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 	void toggleVisibility(std::string id);
 

@@ -33,6 +33,9 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 				TextureManager::Instance()->loadTexture("assets/cat-small.png", "cat", renderer);
 				TextureManager::Instance()->loadTexture("assets/bunny-small.png", "bunny", renderer);
 				TextureManager::Instance()->loadTexture("assets/hedgehog-small.png", "hedgehog", renderer);
+
+				TextureManager::Instance()->loadTexture("assets/mr.small.png", "small", renderer);
+				TextureManager::Instance()->toggleVisibility("small");
 			}
 			else {
 				std::cout << "Renderer init failed!\n";
@@ -68,6 +71,7 @@ void Game::render() {
 	TextureManager::Instance()->drawTexture("cat", ww / 2, 0, ww / 2, wh / 2, renderer);
 	TextureManager::Instance()->drawTexture("bunny", 0, wh / 2, ww / 2, wh / 2, renderer);
 	TextureManager::Instance()->drawTexture("hedgehog", ww / 2, wh / 2, ww / 2, wh / 2, renderer);
+	TextureManager::Instance()->drawTexture("small", ww / 2 - 32, wh / 2 - 32, 64, 64, renderer);
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderDrawLine(renderer, ww / 2, 0, ww / 2, wh);
@@ -95,13 +99,13 @@ void Game::handleEvent() {
 				SDL_GetMouseState(&msx, &msy);
 				mouseDownX = msx;
 				mouseDownY = msy;
-				Game::mouseDown = (msx > ww / 2) + (msy > wh / 2) * 10;
+				Game::mouseDown = (msx > ww / 2) + (msy > wh / 2) * 2;
 			}
 		}; break;
 		case SDL_MOUSEBUTTONUP: {
 			if (event.button.button == SDL_BUTTON_LEFT) {
 				SDL_GetMouseState(&msx, &msy);
-				Game::mouseUp = (msx > ww / 2) + (msy > wh / 2) * 10;
+				Game::mouseUp = (msx > ww / 2) + (msy > wh / 2) * 2;
 				switch (Game::mouseUp) {
 					case 0:
 						if (Game::mouseDown == 0) {
@@ -113,13 +117,13 @@ void Game::handleEvent() {
 							TextureManager::Instance()->toggleVisibility("cat");
 						}
 						break;
-					case 10:
-						if (Game::mouseDown == 10) {
+					case 2:
+						if (Game::mouseDown == 2) {
 							TextureManager::Instance()->toggleVisibility("bunny");
 						}
 						break;
-					case 11:
-						if (Game::mouseDown == 11) {
+					case 3:
+						if (Game::mouseDown == 3) {
 							TextureManager::Instance()->toggleVisibility("hedgehog");
 						}
 						break;
