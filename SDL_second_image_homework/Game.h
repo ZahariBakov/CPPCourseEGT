@@ -25,4 +25,6 @@ private:
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
 	bool running;
+	int mouseDownX, mouseDownY;
+	int mouseDown, mouseUp;
 };
