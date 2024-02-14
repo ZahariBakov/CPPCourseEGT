@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include "TextureManager.h"
+
 class Game {
 public:
 	Game();
@@ -17,7 +19,7 @@ public:
 	void handleEvent();
 	void clean();
 
-	bool isRunning();
+	bool isRunning() const;
 
 private:
 	SDL_Window* window = NULL;

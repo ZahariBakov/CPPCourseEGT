@@ -3,7 +3,7 @@
 Game::Game() {
 	Game::window = NULL;
 	Game::renderer = NULL;
-	Game::running = NULL;
+	Game::running = true;
 }
 
 Game::~Game() {
@@ -24,9 +24,6 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 
 			if (renderer != 0) {
 				std::cout << "Renderer creation success!\n";
-
-				// set white color for background
-				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 			}
 			else {
 				std::cout << "Renderer init failed!\n";
@@ -50,7 +47,18 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 }
 
 void Game::render() {
+	// set window background
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
 	SDL_RenderClear(renderer);
+
+	int ww, wh;
+	SDL_GetWindowSize(window, &ww, &wh);
+
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderDrawLine(renderer, ww / 2, 0, ww / 2, wh);
+	SDL_RenderDrawLine(renderer, 0, wh / 2, ww, wh / 2);
+
 	SDL_RenderPresent(renderer);
 }
 
@@ -78,6 +86,6 @@ void Game::clean() {
 	SDL_Quit();
 }
 
-bool Game::isRunning() {
+bool Game::isRunning() const {
 	return Game::running;
 }
