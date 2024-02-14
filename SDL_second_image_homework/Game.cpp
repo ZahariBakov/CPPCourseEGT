@@ -11,7 +11,7 @@ Game::Game() {
 	Game::mouseDown = 0;
 	Game::mouseUp = 0;
 	Game::currentFrame = 0;
-	Game::currentRow = 1;
+	Game::currentRow = 5;
 }
 
 Game::~Game() {
@@ -81,7 +81,7 @@ void Game::render() {
 	//TextureManager::Instance()->drawTexture("small", mrSmallX, mrSmallY, 64, 64, renderer);
 
 	// animates the sprite sheet with the help of the update() function
-	TextureManager::Instance()->drawOneFrameFromTexture("sprite", mrSmallX, mrSmallY, 46, 49, 1, currentFrame, renderer, frameFlip);
+	TextureManager::Instance()->drawOneFrameFromTexture("sprite", mrSmallX, mrSmallY, 46, 49, currentRow, currentFrame, renderer, frameFlip);
 
 	TextureManager::Instance()->drawRecnatgle(renderer, 0, 0, 40, 20, 2);
 
@@ -161,17 +161,27 @@ void Game::handleEvent() {
 		}
 		case SDL_KEYDOWN: {
 			if (event.key.keysym.sym == SDLK_UP && mrSmallY > 0) {
+				currentRow = 4;
 				mrSmallY -= 5;
 			}
-			if (event.key.keysym.sym == SDLK_DOWN && mrSmallY < wh - 64) {
+			if (event.key.keysym.sym == SDLK_DOWN && mrSmallY < wh - 49) {
+				currentRow = 1;
 				mrSmallY += 5;
 			}
 			if (event.key.keysym.sym == SDLK_LEFT && mrSmallX > 0) {
+				currentRow = 2;
 				mrSmallX -= 5;
 			}
-			if (event.key.keysym.sym == SDLK_RIGHT && mrSmallX < ww - 64) {
+			if (event.key.keysym.sym == SDLK_RIGHT && mrSmallX < ww - 46) {
+				currentRow = 3;
 				mrSmallX += 5;
 			}
+			if (event.key.keysym.sym == SDLK_LCTRL) {
+				TextureManager::Instance()->toggleVisibility("sprite");
+			}
+		}; break;
+		case SDL_KEYUP: {
+			currentRow = 5;
 		}; break;
 		case SDL_MOUSEMOTION: {
 			SDL_GetMouseState(&msx, &msy);
