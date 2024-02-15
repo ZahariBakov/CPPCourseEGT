@@ -1,7 +1,5 @@
 #include "Card.h"
 
-#include <iostream>
-
 Card::Card(int suit, int rank) : _cardSuit(suit), _cardRank(rank) {}
 
 /// Function that give's access to card suit to outside world
@@ -53,7 +51,6 @@ std::string Card::toStringSuit() const {
 
 	std::string result = "assets/cards/" + suit + this->toStringRank(getCardRank()) + ".png";
 
-	std::cout << result << std::endl;
 	return result;
 }
 

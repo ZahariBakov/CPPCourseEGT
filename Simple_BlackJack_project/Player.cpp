@@ -1,10 +1,13 @@
 #include "Player.h"
 
+#include <iostream>
+
 /// Player constructor that set money, score and bet to default values 
 Player::Player() {
 	this->_money = 100000;
 	this->_score = 0;
 	this->_bet = 100;
+	this->_numberOfCards = 0;
 }
 
 
@@ -16,11 +19,16 @@ int Player::getMoney() const {
 /// Function that give access to player's score to outside world
 int Player::getScore() const {
 	return this->_score;
+	std::cout << "PLayer score: " << _score << std::endl;
 }
 
 /// Function that give access to player's bet to outside world
 int Player::getBet() const {
 	return this->_bet;
+}
+
+int Player::getNumberOfCards() const {
+	return this->_numberOfCards;
 }
 
 /// Function that adds profit to the plaeyr's current money
@@ -41,6 +49,7 @@ void Player::resetScore() {
 /// Function that increase the player's score after opening a new card
 void Player::increaseScore(int points) {
 	this->_score += points;
+	std::cout << "Player Score is: " << _score << " after increase with " << points << std::endl;
 }
 
 /// Function that sets the player's bet to either 100 or 1000 based on the boolean parameter
@@ -48,4 +57,8 @@ void Player::setBet(bool big) {
 	if (big == true) {
 		this->_bet = 1000;
 	}
+}
+
+void Player::increaseCards() {
+	this->_numberOfCards++;
 }

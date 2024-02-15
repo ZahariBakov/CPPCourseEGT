@@ -11,7 +11,6 @@ Game::Game() {
 	Game::renderer = NULL;
 
 	Game::running = true;
-	Game::hitBtnClicked = false;
 
 	/// Initialize texture pointers
 	Game::dealerTexture = NULL;
@@ -70,13 +69,16 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 				Card firstDealerCard = mainDeck.dealCard();
 				Card firstPlayerCard = mainDeck.dealCard();
 				player->increaseScore(firstPlayerCard.getPoint());
+				player->increaseCards();
 				Card secondDealerCard = mainDeck.dealCard();
 				Card secondPlayerCard = mainDeck.dealCard();
 				player->increaseScore(secondPlayerCard.getPoint());
+				player->increaseCards();	
+
 				Card thirdPlayerCard = mainDeck.dealCard();
 				Card fourthPlayerCard = mainDeck.dealCard();
 				Card fifthPlayerCard = mainDeck.dealCard();
-
+				
 				/// Load textures
 				TextureManager::Instance()->loadTexture("assets/table-background.jpg", "background", renderer);
 				TextureManager::Instance()->loadTexture("assets/cards/cardBack_blue3.png", "card-back", renderer);
@@ -88,6 +90,18 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 				TextureManager::Instance()->loadTexture(thirdPlayerCard.toStringSuit().c_str(), "thirdPlayerCard", renderer);
 				TextureManager::Instance()->loadTexture(fourthPlayerCard.toStringSuit().c_str(), "fourthPlayerCard", renderer);
 				TextureManager::Instance()->loadTexture(fifthPlayerCard.toStringSuit().c_str(), "fifthPlayerCard", renderer);
+				
+				if (player->getNumberOfCards() == 3) {
+					player->increaseScore(thirdPlayerCard.getPoint());
+				}
+
+				if (player->getNumberOfCards() == 4) {
+					player->increaseScore(fourthPlayerCard.getPoint());
+				}
+
+				if (player->getNumberOfCards() == 5) {
+					player->increaseScore(fifthPlayerCard.getPoint());
+				}
 
 			}
 			else {
@@ -143,7 +157,7 @@ bool Game::ttf_init() {
 	moneyStrTexture = SDL_CreateTextureFromSurface(renderer, tempSurfaceText);
 
 	/// Decrease the player's money by the amount of their bet and convert the updated money value to a char const*.
-	player->decreaseMoney(player->getBet());
+	player->getMoney();
 	std::string t = std::to_string(player->getMoney());
 	char const* playerMoneyToString = t.c_str();
 
@@ -153,7 +167,7 @@ bool Game::ttf_init() {
 	tempSurfaceText = TTF_RenderText_Blended(font2, "Score: ", { 255, 255, 255, 255 });
 	scoreStrTexture = SDL_CreateTextureFromSurface(renderer, tempSurfaceText);
 
-	/// Get the player's money by the amount of their bet and convert the updated money value to a string.
+	/// Get the player's score and convert the value to a string.
 	player->getScore();
 	t = std::to_string(player->getScore());
 	char const* scoreStr = t.c_str();
@@ -244,9 +258,16 @@ void Game::render() {
 	TextureManager::Instance()->drawTexture("firstPlayerCard", 180, wh / 2 + 20, 140, 190, renderer);
 	TextureManager::Instance()->drawTexture("secondPlayerCard", 210, wh / 2 + 20, 140, 190, renderer);
 
-	if (Game::hitBtnClicked == true) {
-		TextureManager::Instance()->drawTexture("card-SA", 240, wh / 2 + 20, 140, 190, renderer);
-		//Game::hitBtnClicked = false;
+	if (player->getNumberOfCards() > 2) {
+		TextureManager::Instance()->drawTexture("thirdPlayerCard", 240, wh / 2 + 20, 140, 190, renderer);
+	}
+
+	if (player->getNumberOfCards() >  3) {
+		TextureManager::Instance()->drawTexture("fourthPlayerCard", 270, wh / 2 + 20, 140, 190, renderer);
+	}
+
+	if (player->getNumberOfCards() > 4) {
+		TextureManager::Instance()->drawTexture("fifthPlayerCard", 300, wh / 2 + 20, 140, 190, renderer);
 	}
 
 	/// Drawing a line in the middle
@@ -331,7 +352,8 @@ void Game::clickedBtn( int xDown, int yDown, int xUp, int yUp) {
 	if ((xDown > hitBtnX && xDown < (hitBtnX + hitBtnW)) && (xUp > hitBtnX && xUp < (hitBtnX + hitBtnW)) &&
 		(yDown > hitBtnY && yDown < (hitBtnY + hitBtnH)) && (yUp > hitBtnY && yUp < (hitBtnY + hitBtnH))) {
 		std::cout << "Hit BTN is clicked!" << std::endl;
-		hitBtnClicked = true;
+		player->increaseCards();
+		std::cout << player->getNumberOfCards() << std::endl;
 		
 		return;
 	}

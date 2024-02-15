@@ -45,7 +45,7 @@ public:
 private:
 	SDL_Window* window = NULL;/*!< The game window*/
 	SDL_Renderer* renderer = NULL;/*!< The renderer for rendering graphics*/
-	bool running, hitBtnClicked;/*!< Flag indicate if Hit button is clicked*/
+	bool running;/*!< Flag indicate if Hit button is clicked*/
 
 	/// Textures
 	SDL_Texture* dealerTexture,

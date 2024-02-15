@@ -1,7 +1,5 @@
 #include "CardDeck.h"
 
-#include <iostream>
-
 CardDeck::CardDeck() {
 	int idx = 0;
 	this->_currentCard = 0;
