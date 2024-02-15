@@ -6,6 +6,8 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 
+#include "TextureManager.h"
+
 class Game {
 public:
 	Game();
@@ -21,21 +23,34 @@ public:
 	void clean();
 
 	bool isRunning() const;
+	void isClicked(int xDown, int yDown, int xUp, int yUp);
 
 private:
 	SDL_Window* window = NULL;
 	SDL_Renderer* renderer = NULL;
-	bool running;
+	bool running, hitClick;
 
-	SDL_Texture* dealerTexture;
-	SDL_Texture* playerTexture;
-	SDL_Texture* scoreTexture;
-	SDL_Texture* moneyTexture;
+	SDL_Texture* dealerTexture,
+		* playerTexture,
+		* scoreTexture,
+		* scoreStrTexture,
+		* moneyTexture,
+		* moneyStrTexture,
+		* betStrTexture,
+		* betTexture,
+		* hitBtnTexture,
+		* stayBtnTexture;
 
-	SDL_Rect dealerRect;
-	SDL_Rect playerRect;
-	SDL_Rect scoreRect;
-	SDL_Rect moneyRect;
+	SDL_Rect dealerRect,
+		playerRect,
+		scoreRect,
+		scoreStrRect,
+		moneyRect,
+		moneyStrRect,
+		betStrRect,
+		betRect,
+		hitBtnRect,
+		stayBtnRect;
 
-	int playerMoney;
+	int playerMoney, score, bet, mouseDownX, mouseDownY;
 };
