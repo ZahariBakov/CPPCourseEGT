@@ -62,3 +62,8 @@ void Player::setBet(bool big) {
 void Player::increaseCards() {
 	this->_numberOfCards++;
 }
+
+void Player::addCard(Card* currentCard) {
+	this->_allCards.push_back(currentCard);
+	this->increaseScore(currentCard->getPoint());
+}

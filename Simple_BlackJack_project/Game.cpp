@@ -68,12 +68,10 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 
 				Card firstDealerCard = mainDeck.dealCard();
 				Card firstPlayerCard = mainDeck.dealCard();
-				player->increaseScore(firstPlayerCard.getPoint());
-				player->increaseCards();
+				player->addCard(&firstPlayerCard);
 				Card secondDealerCard = mainDeck.dealCard();
 				Card secondPlayerCard = mainDeck.dealCard();
-				player->increaseScore(secondPlayerCard.getPoint());
-				player->increaseCards();	
+				player->addCard(&secondPlayerCard);	
 
 				Card thirdPlayerCard = mainDeck.dealCard();
 				Card fourthPlayerCard = mainDeck.dealCard();
@@ -92,6 +90,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 				TextureManager::Instance()->loadTexture(fifthPlayerCard.toStringSuit().c_str(), "fifthPlayerCard", renderer);
 				
 				if (player->getNumberOfCards() == 3) {
+					std::cout << "Here must be increase score..." << std::endl;
 					player->increaseScore(thirdPlayerCard.getPoint());
 				}
 
